@@ -40,7 +40,7 @@ public class Player extends Entity {
 			right1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right1.png"));
 			right2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right2.png"));
 			
-			System.out.println(up1);
+			//System.out.println(up1);
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -49,6 +49,9 @@ public class Player extends Entity {
 	
 	//update 60 frames per second
 	public void update() {
+		
+		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
+		
 		if(keyH.upPressed == true) {
 			direction = "up";
 			y -= speed;
@@ -65,6 +68,7 @@ public class Player extends Entity {
 			direction = "right";
 			x += speed;
 		}
+	
 		
 		spriteCounter++;
 		if(spriteCounter > 12) {
@@ -75,6 +79,7 @@ public class Player extends Entity {
 				spriteNum = 1;
 			}
 			spriteCounter = 0;
+		}
 		}
 	}
 		
