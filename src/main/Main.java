@@ -15,7 +15,7 @@ public class Main {
 		
 		window.setLocationRelativeTo(null); // just appears in the middle
 		window.setVisible(true); //window will be visible to you
-		
+		gamePanel.setupGame();
 		gamePanel.startGameThread();
 	}
 

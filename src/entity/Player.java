@@ -26,6 +26,7 @@ public class Player extends Entity {
 	screenX = gp.screenWidth / 2 - (gp.tileSize/2);
 	screenY = gp.screenHeight / 2 - (gp.tileSize/2);
 	
+	//PLAYER COLLIDER
 	solidArea = new Rectangle(); //or add the attributes in the brackets: new Rectangle(8, 16, 32, 32)
 	solidArea.x = 8;
 	solidArea.y = 16;
@@ -44,6 +45,7 @@ public class Player extends Entity {
 		direction = "down";
 	}
 	
+	//ANIMATION FRAMES
 	public void getPlayerImage() { //method to associate each image with direction movement
 		try {
 			up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up1.png"));
