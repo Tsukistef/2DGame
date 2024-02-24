@@ -17,6 +17,9 @@ public class Player extends Entity {
 	
 	public final int screenX;
 	public final int screenY;
+	int hasKey = 0;
+	int hasMushroom = 0;
+	int hasChestKey = 0;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 	
@@ -30,6 +33,8 @@ public class Player extends Entity {
 	solidArea = new Rectangle(); //or add the attributes in the brackets: new Rectangle(8, 16, 32, 32)
 	solidArea.x = 8;
 	solidArea.y = 16;
+	solidAreaDefaultX = solidArea.x;
+	solidAreaDefaultY = solidArea.y;
 	solidArea.width = 32;
 	solidArea.height = 32;
 	
@@ -89,6 +94,10 @@ public class Player extends Entity {
 			//CHECK TILE COLLISION
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
+
+			//CHECK OBJECT COLLISION
+			int objIndex = gp.cChecker.checkObject(this, true);
+			pickUpObject(objIndex);
 			
 			//IF COLLISION IS FALSE, PLAYER CAN MOVE
 			if(collisionOn == false) {
@@ -107,8 +116,8 @@ public class Player extends Entity {
 					break;
 				}
 			}
-			
-			spriteCounter++; // Sprite player animation
+			 // Sprite player animation
+			spriteCounter++;
 			if(spriteCounter > 12) {
 				if(spriteNum == 1) {
 					spriteNum = 2;
@@ -120,7 +129,56 @@ public class Player extends Entity {
 			}
 		}
 	}
-		
+	
+		public void pickUpObject(int i) {
+			if(i != 999) {
+				String objectName = gp.obj[i].name;
+				
+				switch(objectName) {
+				case "Key":
+					hasKey++;
+					gp.obj[i] = null;
+					System.out.println("Key Door: " + hasKey);
+					break;
+				case "Key Chest":
+					hasChestKey++;
+					gp.obj[i] = null;
+					System.out.println("Key Chest: " + hasChestKey);
+					break;
+				case "Door":
+					if(hasKey > 0) {
+						gp.obj[i] = null;
+						hasKey--;
+						System.out.println("Key Door: " + hasKey);
+					}
+					break;
+				case "Chest":
+					if(hasChestKey > 0) {
+						gp.obj[i] = null;
+						hasChestKey--;
+						System.out.println("Key Chest: " + hasChestKey);
+					}
+					break;
+					
+				case "Speedy boots":
+					if(hasMushroom > 0) {
+						speed += 4;
+					} else {
+						speed +=2;
+					}
+					gp.obj[i] = null;
+					break;
+					
+				case "Slow Mushroom":
+					hasMushroom++;
+					speed -= 2;
+					gp.obj[i] = null;
+					break;
+				}
+			}
+		}
+	
+		//ANIMATION SWITCHES ACCORDING TO DIRECTION
 		public void draw(Graphics2D g2) {
 			//g2.setColor(Color.white);
 			//g2.fillRect(x, y, gp.tileSize, gp.tileSize);
