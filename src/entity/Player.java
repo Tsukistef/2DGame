@@ -17,9 +17,9 @@ public class Player extends Entity {
 	
 	public final int screenX;
 	public final int screenY;
-	int hasKey = 0;
-	int hasMushroom = 0;
-	int hasChestKey = 0;
+	public int hasKey = 0;
+	public int hasMushroom = 0;
+	public int hasChestKey = 0;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 	
@@ -139,28 +139,34 @@ public class Player extends Entity {
 					gp.playSE(1);
 					hasKey++;
 					gp.obj[i] = null;
-					System.out.println("Key Door: " + hasKey);
+					gp.ui.showMessage("You got a door key!");
 					break;
 				case "Key Chest":
 					gp.playSE(1);
 					hasChestKey++;
 					gp.obj[i] = null;
-					System.out.println("Key Chest: " + hasChestKey);
+					gp.ui.showMessage("You got a chest key!");
 					break;
 				case "Door":
 						if(hasKey > 0) {
 						gp.playSE(3);
 						gp.obj[i] = null;
 						hasKey--;
-						System.out.println("Key Door: " + hasKey);
-					}
+						gp.ui.showMessage("You opened the door!");
+						} 
+						else {
+							gp.ui.showMessage("You need a key!");
+						}
 					break;
 				case "Chest":
 					if(hasChestKey > 0) {
 						gp.playSE(6);
 						gp.obj[i] = null;
 						hasChestKey--;
-						System.out.println("Key Chest: " + hasChestKey);
+						gp.ui.showMessage("You opened the chest!");
+					} 
+					else {
+						gp.ui.showMessage("You need a key!");
 					}
 					break;
 					
@@ -168,10 +174,12 @@ public class Player extends Entity {
 					gp.playSE(4);
 					if(hasMushroom > 0) {
 						speed += 4;
-					} else {
+					} 
+					else {
 						speed +=2;
 					}
 					gp.obj[i] = null;
+					gp.ui.showMessage("You got speedy boots!");
 					break;
 					
 				case "Slow Mushroom":
@@ -179,6 +187,7 @@ public class Player extends Entity {
 					hasMushroom++;
 					speed -= 2;
 					gp.obj[i] = null;
+					gp.ui.showMessage("You got a sloppy mushroom!");
 					break;
 				}
 			}
