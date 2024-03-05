@@ -11,9 +11,9 @@ import object.OBJ_KeyChest;
 public class UI {
 
 	GamePanel gp;
-	Font arial_28;
+	Font arial_28, arial_80B;
 	
-	//IONS
+	//ICONS
 	BufferedImage keyImageChest;
 	BufferedImage keyImageDoor;
 	
@@ -21,11 +21,13 @@ public class UI {
 	public String message = "";
 	public boolean messageOn = false;
 	int messageCounter = 0;
+	public boolean gameFinished = false;
 	
 	public UI(GamePanel gp) {
 		this.gp = gp;
 		
 		arial_28 = new Font("Arial", Font.PLAIN, 38);
+		arial_80B = new Font("Arial", Font.BOLD, 80);
 		OBJ_Key key = new OBJ_Key();
 		OBJ_KeyChest keyChest = new OBJ_KeyChest();
 		keyImageDoor = key.image;
@@ -33,6 +35,8 @@ public class UI {
 	}
 	
 	public void showMessage(String text) {
+		
+		
 		
 		message = text;
 		messageOn = true;
@@ -46,17 +50,47 @@ public class UI {
 		g2.drawString("x " + gp.player.hasKey, 75, 50);
 		g2.drawString("x " + gp.player.hasChestKey, 200, 50);
 		
-		//MESSAGE
-		if(messageOn == true) {
+		if(gameFinished == true) {
 			
-			g2.setFont(g2.getFont().deriveFont(30F));
-			g2.drawString(message, gp.tileSize/2, gp.tileSize*5);
+			g2.setFont(arial_28);
+			g2.setColor(Color.white);
 			
-			messageCounter++;
-			if(messageCounter > 120) {
-				messageCounter = 0;
-				messageOn = false;
+			String text;
+			int textLength;
+			int x;
+			int y;
+			
+			text = "Level Cleared!";
+			textLength = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+			
+			x = gp.screenWidth/2 - textLength/2;
+			y = gp.screenHeight/2 - (gp.tileSize*2);
+			g2.drawString(text, x, y);
+			
+			g2.setFont(arial_80B);
+			g2.setColor(Color.yellow);
+			text = "Congratulations!";
+			textLength = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+			x = gp.screenWidth/2 - textLength/2;
+			y = gp.screenHeight/2 + (gp.tileSize*2);
+			g2.drawString(text, x, y);
+			
+			gp.gameThread = null;
+		}
+		else {
+			//MESSAGE
+			if(messageOn == true) {
+				
+				g2.setFont(g2.getFont().deriveFont(30F));
+				g2.drawString(message, gp.tileSize/2, gp.tileSize*5);
+				
+				messageCounter++;
+				if(messageCounter > 120) {
+					messageCounter = 0;
+					messageOn = false;
+				}
 			}
+			
 		}
 	}
 }

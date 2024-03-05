@@ -20,7 +20,8 @@ public class Player extends Entity {
 	public int hasKey = 0;
 	public int hasMushroom = 0;
 	public int hasChestKey = 0;
-
+	public int chestLevel = 2;
+	
 	public Player(GamePanel gp, KeyHandler keyH) {
 	
 	this.gp = gp;
@@ -164,7 +165,12 @@ public class Player extends Entity {
 						gp.obj[i] = null;
 						hasChestKey--;
 						gp.ui.showMessage("You opened the chest!");
-					} 
+						chestLevel--;
+						if(chestLevel == 0) {
+							gp.ui.gameFinished = true;
+							gp.stopMusic();
+						} 
+					}
 					else {
 						gp.ui.showMessage("You need a key!");
 					}
